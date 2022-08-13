@@ -1,6 +1,6 @@
 const contacts = require("../models/contacts");
 const createError = require("../helpers/createError");
-const itemSchema = require("../schemas/schemas");
+const { itemSchema, favoriteJoiSchema } = require("../schemas/schemas");
 
 const getAll = async () => {
   try {
@@ -70,10 +70,32 @@ const updateContact = async (params, body) => {
   }
 };
 
+const updateFavorite = async (id, body) => {
+  try {
+    const { favorite } = body;
+    const { error } = favoriteJoiSchema.validate(body);
+
+    if (error) {
+      throw createError(400);
+    }
+
+    const result = contacts.updateFavorite(id, { favorite });
+
+    if (!result) {
+      throw createError(404);
+    }
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   addContact,
   deleteContact,
   updateContact,
+  updateFavorite,
 };

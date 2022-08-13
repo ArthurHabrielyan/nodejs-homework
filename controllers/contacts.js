@@ -33,10 +33,28 @@ const updateContact = async (req, res, next) => {
   res.json({ status: "success", code: 200, payload: { updateContact } });
 };
 
+const updateFavorite = async (req, res, next) => {
+  const { id } = req.params;
+  const result = await contactService.updateFavorite(id, req.body);
+
+  if (!result) {
+    return res.status(400).json({
+      message: "Missing field favorite",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    code: 200,
+    payload: { result },
+  });
+};
+
 module.exports = {
   listContacts,
   getContactById,
   removeContact,
   addContact,
   updateContact,
+  updateFavorite,
 };
