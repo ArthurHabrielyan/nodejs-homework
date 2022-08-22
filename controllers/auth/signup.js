@@ -15,6 +15,7 @@ const signup = async (req, res, next) => {
     user: {
       email,
       subscription: result.subscription,
+      avatarUrl: result.avatarURL,
     },
   });
 };
